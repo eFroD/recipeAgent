@@ -1,0 +1,11 @@
+[project]
+name = "recipeagent"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "pydantic>=2.11.9",
+    "pydantic-ai>=1.0.10",
+    "pydantic-ai-slim[google]>=1.0.10",
+]
