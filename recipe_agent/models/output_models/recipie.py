@@ -33,7 +33,7 @@ class Recipe(BaseModel):
     image: Optional[Union[HttpUrl, List[HttpUrl]]]
     recipeYield: Optional[str]
     recipeIngredient: List[str]
-    recipeInstructions: Optional[Union[List[HowToStep], List[HowToSection], str]]
+    recipeInstructions: Optional[Union[List[HowToStep], List[HowToSection]]]
     prepTime: Optional[str]            # Duration ISO 8601: e.g., "PT20M"
     cookTime: Optional[str]            # Duration ISO 8601
     totalTime: Optional[str]           # Duration ISO 8601
@@ -45,3 +45,12 @@ class Recipe(BaseModel):
     author: Optional[str]
     aggregateRating: Optional[float]  # Simplified, could be complex object
     video: Optional[HttpUrl]          # Link to recipe video
+
+class RecipeError(BaseModel):
+    error: str
+    missing_fields: Optional[List[str]]
+
+class RecipeResponse(BaseModel):
+    recipe: Optional[Recipe]
+    suggested_version: Optional[Recipe]
+    error_info: Optional[RecipeError]

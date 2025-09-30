@@ -9,6 +9,7 @@ from openai import OpenAI
 from recipe_agent.models.input_models.video import VideoUrl
 from recipe_agent.models.output_models.video import VideoDescriptionResponse, VideoTranscriptResponse
 
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 def get_description(input: VideoUrl) -> VideoDescriptionResponse:
     """Get video description and title with yt-dlp."""
     with yt_dlp.YoutubeDL({}) as ydl:
@@ -18,7 +19,7 @@ def get_description(input: VideoUrl) -> VideoDescriptionResponse:
             title=info.get("title")
         )
 
-def get_transcript(input: VideoUrl, openai_api_key: str) -> VideoTranscriptResponse:
+def get_transcript(input: VideoUrl) -> VideoTranscriptResponse:
     """
     Extract audio using yt-dlp, transcribe it using OpenAI Whisper API.
     Returns transcript text as a Pydantic model. Assumes 'openai' package v1+.
@@ -40,7 +41,7 @@ def get_transcript(input: VideoUrl, openai_api_key: str) -> VideoTranscriptRespo
             ydl.download([input.url])
         
         # 2. Transcribe audio with Whisper (OpenAI API)
-        client = OpenAI(api_key=openai_api_key)
+        client = OpenAI(api_key=OPENAI_API_KEY)
         with open(audio_path+".mp3", "rb") as audio_file:
             response = client.audio.transcriptions.create(
                 model="whisper-1",

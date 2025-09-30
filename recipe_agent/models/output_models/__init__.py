@@ -1,1 +1,1 @@
-from .recipie import Recipe
+from .recipie import RecipeResponse
