@@ -6,18 +6,8 @@ import os
 import tempfile
 from openai import OpenAI
 
-# Tool Input
-class VideoUrl(BaseModel):
-    url: str
-
-# Tool Output for Description
-class VideoDescriptionResponse(BaseModel):
-    description: str
-    title: Optional[str] = None
-
-# Tool Output for Transcript
-class VideoTranscriptResponse(BaseModel):
-    transcript: str
+from recipe_agent.models.input_models.video import VideoUrl
+from recipe_agent.models.output_models.video import VideoDescriptionResponse, VideoTranscriptResponse
 
 def get_description(input: VideoUrl) -> VideoDescriptionResponse:
     """Get video description and title with yt-dlp."""
