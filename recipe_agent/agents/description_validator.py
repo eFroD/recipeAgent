@@ -7,10 +7,6 @@ from recipe_agent.models.output_models import RecipeResponse
 from recipe_agent.models.input_models.video import VideoUrl
 import logfire
 
-logfire_token = os.environ.get("LOGFIRE_WRITE_TOKEN")
-logfire.instrument_pydantic_ai()
-logfire.configure(token=logfire_token)
-
 recipe_validator = Agent(
     model=GoogleModel("gemini-2.5-flash"),
     
