@@ -13,7 +13,6 @@ class NutritionInformation(BaseModel):
 class HowToStep(BaseModel):
     type_: Optional[str] = Field("HowToStep", alias='@type')
     text: str
-    image: Optional[HttpUrl]
 
 class HowToSection(BaseModel):
     name: Optional[str]

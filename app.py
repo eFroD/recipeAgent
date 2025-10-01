@@ -11,11 +11,12 @@ logfire.configure(token=logfire_token)
 logfire.instrument_pydantic_ai()
 class VideoRequest(BaseModel):
     url: HttpUrl
+    target_language: str = "en" 
 
 @app.post("/extract-recipe")
 async def extract_recipe(request: VideoRequest):
     try:
-        response = await recipe_validator.run(f"Please extract the recipe from the given url: {request.url}")
+        response = await recipe_validator.run(f"Please extract the recipe from the given url: {request.url}. The target language is {request.target_language}.")
         return {"recipe": response}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
