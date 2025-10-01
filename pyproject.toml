@@ -11,3 +11,8 @@ dependencies = [
     "pydantic-ai-slim[google]>=1.0.10",
     "yt-dlp>=2025.9.23",
 ]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.2",
+]
