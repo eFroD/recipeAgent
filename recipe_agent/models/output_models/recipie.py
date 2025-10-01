@@ -1,6 +1,5 @@
 from typing import List, Optional, Union
-from pydantic import BaseModel, HttpUrl
-
+from pydantic import BaseModel, HttpUrl, Field
 
 class NutritionInformation(BaseModel):
     calories: Optional[str]
@@ -11,40 +10,38 @@ class NutritionInformation(BaseModel):
     sugarContent: Optional[str]
     servingSize: Optional[str]
 
-
 class HowToStep(BaseModel):
+    type_: Optional[str] = Field("HowToStep", alias='@type')
     text: str
     image: Optional[HttpUrl]
-
 
 class HowToSection(BaseModel):
     name: Optional[str]
     itemListElement: List[HowToStep]
 
-
-class Ingredient(BaseModel):
-    quantity: Optional[str]
+class Author(BaseModel):
+    type_: Optional[str] = Field("Person", alias='@type')
     name: str
 
-
 class Recipe(BaseModel):
+    context: Optional[str] = Field("https://schema.org", alias='@context')
+    type_: Optional[str] = Field("Recipe", alias='@type')
     name: str
     description: Optional[str]
     image: Optional[Union[HttpUrl, List[HttpUrl]]]
     recipeYield: Optional[str]
     recipeIngredient: List[str]
     recipeInstructions: Optional[Union[List[HowToStep], List[HowToSection]]]
-    prepTime: Optional[str]            # Duration ISO 8601: e.g., "PT20M"
-    cookTime: Optional[str]            # Duration ISO 8601
-    totalTime: Optional[str]           # Duration ISO 8601
+    prepTime: Optional[str]           
+    cookTime: Optional[str]           
+    totalTime: Optional[str]         
     recipeCategory: Optional[str]
     recipeCuisine: Optional[str]
-    keywords: Optional[str]
-    suitableForDiet: Optional[str]    # e.g., "GlutenFreeDiet"
+    keywords: Optional[List[str]] 
+    suitableForDiet: Optional[str]   
     nutrition: Optional[NutritionInformation]
-    author: Optional[str]
-    aggregateRating: Optional[float]  # Simplified, could be complex object
-    video: Optional[HttpUrl]          # Link to recipe video
+    author: Optional[Author]
+    video: Optional[HttpUrl]
 
 class RecipeError(BaseModel):
     error: str

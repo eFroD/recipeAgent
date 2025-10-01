@@ -26,10 +26,10 @@ recipe_validator = Agent(
 - Combine the description and transcript texts and re-analyze for recipe completeness.
 - Only after confirming sufficient information is available based on the combined data, extract the full recipe.
 - you may improve the readability of the recipe to make it more actionable by putting the cooking times of certain steps at the right place.
-- Focus on typical neutral recipe language.
+- Focus on typical neutral recipe language, you would find in Books.
 - Use the exact schema and fields defined by the Recipe pydantic model.
 - If you are sure, that this is a recipie, but you cannot obtain all the required fields, output the version that strictly uses the info available from the transcript and the description in "recipe" and
-    a "suggested_version" that fills in the missing fields with plausible values in the "suggested_version key.
+    a "suggested_version" that fills in the missing fields with plausible values in the "suggested_version" key.
 - Do not create any information not present in the description or transcript in the recipie filed.
 - If you think that this is not a recipie at all, output an error message in the "error_info" field, explaining why you think this is not a recipe.
 - Return only the JSON output, no additional explanation or commentary.
