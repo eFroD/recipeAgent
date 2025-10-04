@@ -1,6 +1,7 @@
 from typing import List, Optional, Union
 from pydantic import BaseModel, HttpUrl, Field
 
+
 class NutritionInformation(BaseModel):
     calories: Optional[str]
     fatContent: Optional[str]
@@ -10,41 +11,47 @@ class NutritionInformation(BaseModel):
     sugarContent: Optional[str]
     servingSize: Optional[str]
 
+
 class HowToStep(BaseModel):
-    type_: Optional[str] = Field("HowToStep", alias='@type')
+    type_: str = Field("HowToStep", alias="@type")
     text: str
+
 
 class HowToSection(BaseModel):
     name: Optional[str]
     itemListElement: List[HowToStep]
 
+
 class Author(BaseModel):
-    type_: Optional[str] = Field("Person", alias='@type')
+    type_: Optional[str] = Field("Person", alias="@type")
     name: str
 
+
 class Recipe(BaseModel):
-    context: Optional[str] = Field("https://schema.org", alias='@context')
-    type_: Optional[str] = Field("Recipe", alias='@type')
+    context: str = Field("https://schema.org", alias="@context")
+    type_: str = Field("Recipe", alias="@type")
     name: str
     description: Optional[str]
     image: Optional[Union[HttpUrl, List[HttpUrl]]]
     recipeYield: Optional[str]
     recipeIngredient: List[str]
     recipeInstructions: Optional[Union[List[HowToStep], List[HowToSection]]]
-    prepTime: Optional[str]           
-    cookTime: Optional[str]           
-    totalTime: Optional[str]         
+    prepTime: Optional[str]
+    cookTime: Optional[str]
+    totalTime: Optional[str]
     recipeCategory: Optional[str]
     recipeCuisine: Optional[str]
-    keywords: Optional[List[str]] 
-    suitableForDiet: Optional[str]   
+    keywords: Optional[List[str]]
+    suitableForDiet: Optional[str]
     nutrition: Optional[NutritionInformation]
     author: Optional[Author]
     video: Optional[HttpUrl]
 
+
 class RecipeError(BaseModel):
     error: str
     missing_fields: Optional[List[str]]
+
 
 class RecipeResponse(BaseModel):
     recipe: Optional[Recipe]

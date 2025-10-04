@@ -1,15 +1,12 @@
 """This agent obtains the description of a recipe and validates it against the pydantic standard for recipes."""
-import os
+
 from pydantic_ai import Agent
 from pydantic_ai.models.google import GoogleModel
 from recipe_agent.tools.video_loader import get_description, get_transcript
 from recipe_agent.models.output_models import RecipeResponse
-from recipe_agent.models.input_models.video import VideoUrl
-import logfire
 
 recipe_validator = Agent(
     model=GoogleModel("gemini-2.5-flash"),
-    
     tools=[get_description, get_transcript],
     output_type=RecipeResponse,
     system_prompt="""You are a precise and cautious Recipe Extraction agent.
@@ -32,5 +29,5 @@ recipe_validator = Agent(
 
 Be methodical and only use the tools when required.
 
-"""
+""",
 )
