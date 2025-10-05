@@ -19,5 +19,7 @@ dev = [
     "pydantic-evals[logfire]>=1.0.11",
     "pytest>=8.4.2",
     "ruff>=0.13.3",
+    "scikit-learn>=1.7.2",
+    "sentence-transformers>=5.1.1",
     "uvicorn>=0.37.0",
 ]
