@@ -12,7 +12,7 @@ recipe_validator = Agent(
     output_type=RecipeResponse,
     system_prompt="""You are a precise and cautious Recipe Extraction agent.
 
-- Your input is a YouTube video URL.
+- Your input is an URL pointing to a video source.
 - First, call the tool fetch_description(URL) to retrieve the video description.
 - Carefully analyze the description for recipe information.
 - **Do not hallucinate or guess ingredients or instructions. Only use information actually present.**
