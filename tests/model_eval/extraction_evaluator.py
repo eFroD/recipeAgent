@@ -1,7 +1,8 @@
 from pydantic_evals.evaluators import Evaluator, EvaluatorContext
 from pydantic_evals.dataset import Dataset
 from recipe_agent.models.output_models.recipe import Recipe
-from recipe_agent.agents.description_validator import recipe_validator
+from recipe_agent.agents.video_agent import recipe_validator
+from pydantic_ai.exceptions import UnexpectedModelBehavior 
 from tests.model_eval.eval_dataset import cases
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -72,10 +73,13 @@ dataset = Dataset(
 
 
 def call_agent(input_data):
-    output = recipe_validator.run_sync(
-        f"Please extract the recipe from the given url: {input_data['url']}. The target language is {input_data['language']}."
-    )
-    recipe = Recipe.model_validate(output.output.recipe)
+    try:
+        output = recipe_validator.run_sync(
+            f"Please extract the recipe from the given url: {input_data['url']}. The target language is {input_data['language']}."
+        )
+    except UnexpectedModelBehavior as e:
+        logfire.error(f"Model behavior unexpected: {e}")
+    recipe = Recipe.model_validate(output.output.suggested_version)
     return recipe
 
 

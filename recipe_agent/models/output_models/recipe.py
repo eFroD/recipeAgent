@@ -32,27 +32,28 @@ class Recipe(BaseModel):
     type_: str = Field("Recipe", alias="@type")
     name: str
     description: Optional[str]
-    image: Optional[Union[HttpUrl, List[HttpUrl]]]
-    recipeYield: Optional[str]
+    image: Optional[Union[HttpUrl, List[HttpUrl], str]] = ""
+    recipeYield: str = ""
     recipeIngredient: List[str]
     recipeInstructions: Optional[Union[List[HowToStep], List[HowToSection]]]
-    prepTime: Optional[str]
-    cookTime: Optional[str]
-    totalTime: Optional[str]
-    recipeCategory: Optional[str]
-    recipeCuisine: Optional[str]
+    prepTime: str = ""
+    cookTime: str = ""
+    totalTime: str = ""
+    recipeCategory: str = ""
+    recipeCuisine: str = ""
     keywords: Optional[List[str]]
-    suitableForDiet: Optional[str]
+    suitableForDiet: str  = ""
     author: Optional[Author]
     video: Optional[HttpUrl]
+    url: Optional[HttpUrl]
 
 
 class RecipeError(BaseModel):
-    error: str
-    missing_fields: Optional[List[str]]
+    error: str = ""
+    missing_fields: List[str] = []
 
 
 class RecipeResponse(BaseModel):
     recipe: Optional[Recipe]
     suggested_version: Optional[Recipe]
-    error_info: Optional[RecipeError]
+    error_info: RecipeError = Field(default_factory=RecipeError)

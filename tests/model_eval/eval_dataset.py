@@ -91,6 +91,7 @@ recipe_1 = {
     "author": {"name": "Hannes / FOODBOOM", "@type": "Person"},
     "recipeCuisine": "Deutsch",
     "image": [],
+    "url": "https://m.facebook.com/reel/1098675172447515/?referral_source=external_deeplink",
     "@context": "https://schema.org",
     "keywords": ["Brokkoli", "Nudelauflauf", "Auflauf", "Pasta", "Schinken", "Käse"],
 }
@@ -144,6 +145,7 @@ recipe_2 = {
         },
     ],
     "video": "https://www.instagram.com/reel/DJoCpaCojEx/?igsh=M3FiNzdjcTgwMmht",
+    "url": "https://www.instagram.com/reel/DJoCpaCojEx/?igsh=M3FiNzdjcTgwMmht",
     "suitableForDiet": "",
     "author": {"name": "piaundhalloumi"},
     "image": [],
@@ -156,7 +158,7 @@ cases = [
         name="recipe_1",
         inputs={
             "url": "https://m.facebook.com/reel/1098675172447515/?referral_source=external_deeplink",
-            "language": "de",
+            "language": "german",
         },
         expected_output=Recipe.model_validate(recipe_1),
     )
@@ -166,7 +168,7 @@ cases.append(
         name="recipe_2",
         inputs={
             "url": "https://www.instagram.com/reel/DJoCpaCojEx/?igsh=M3FiNzdjcTgwMmht",
-            "language": "en",
+            "language": "english",
         },
         expected_output=Recipe.model_validate(recipe_2),
     )

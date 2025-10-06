@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, HttpUrl
-from recipe_agent.agents.description_validator import recipe_validator
+from recipe_agent.agents.video_agent import recipe_validator
 import logfire
 import os
 
