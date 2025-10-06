@@ -19,7 +19,9 @@ def get_description(input: VideoUrl) -> VideoDescriptionResponse:
     with yt_dlp.YoutubeDL({}) as ydl:
         info = ydl.extract_info(input.url, download=False)
         return VideoDescriptionResponse(
-            description=info.get("description", ""), title=info.get("title")
+            description=info.get("description", ""),
+            title=info.get("title"),
+            image=info.get("thumbnail"),
         )
 
 

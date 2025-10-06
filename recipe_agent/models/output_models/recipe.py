@@ -42,7 +42,7 @@ class Recipe(BaseModel):
     recipeCategory: str = ""
     recipeCuisine: str = ""
     keywords: Optional[List[str]]
-    suitableForDiet: str  = ""
+    suitableForDiet: str = ""
     author: Optional[Author]
     video: Optional[HttpUrl]
     url: Optional[HttpUrl]

@@ -7,6 +7,7 @@ from typing import Optional
 class VideoDescriptionResponse(BaseModel):
     description: str
     title: Optional[str] = None
+    image: Optional[str] = None
 
 
 # Tool Output for Transcript

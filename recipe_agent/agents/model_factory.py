@@ -23,5 +23,7 @@ def create_model() -> Union[OpenAIChatModel, GoogleModel]:
         return GoogleModel(model_name=model_name, settings={"temperature": 0.4})
     elif provider == "ollama":
         return OpenAIChatModel(
-            model_name=model_name, provider=OllamaProvider(ollama_url), settings={"temperature": 0.4}
+            model_name=model_name,
+            provider=OllamaProvider(ollama_url),
+            settings={"temperature": 0.4},
         )
