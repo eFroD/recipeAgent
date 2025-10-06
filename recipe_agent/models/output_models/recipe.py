@@ -43,7 +43,6 @@ class Recipe(BaseModel):
     recipeCuisine: Optional[str]
     keywords: Optional[List[str]]
     suitableForDiet: Optional[str]
-    nutrition: Optional[NutritionInformation]
     author: Optional[Author]
     video: Optional[HttpUrl]
 
