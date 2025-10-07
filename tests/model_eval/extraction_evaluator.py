@@ -1,7 +1,7 @@
 from pydantic_evals.evaluators import Evaluator, EvaluatorContext
 from pydantic_evals.dataset import Dataset
 from recipe_agent.models.output_models.recipe import Recipe
-from recipe_agent.agents.video_agent import recipe_validator
+from recipe_agent.agents.video_agent import video_agent
 from pydantic_ai.exceptions import UnexpectedModelBehavior
 from tests.model_eval.eval_dataset import cases
 from sentence_transformers import SentenceTransformer
@@ -74,7 +74,7 @@ dataset = Dataset(
 
 def call_agent(input_data):
     try:
-        output = recipe_validator.run_sync(
+        output = video_agent.run_sync(
             f"Please extract the recipe from the given url: {input_data['url']}. The target language is {input_data['language']}."
         )
     except UnexpectedModelBehavior as e:

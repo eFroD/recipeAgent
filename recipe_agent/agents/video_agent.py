@@ -6,7 +6,7 @@ from recipe_agent.models.output_models import RecipeResponse
 from recipe_agent.agents.model_factory import create_model
 
 model = create_model()
-recipe_validator = Agent(
+video_agent = Agent(
     model=model,
     tools=[get_description, get_transcript],
     output_type=RecipeResponse,
