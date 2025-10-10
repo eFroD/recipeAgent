@@ -28,4 +28,6 @@ def create_model() -> Union[OpenAIChatModel, GoogleModel]:
             settings={"temperature": 0.4},
         )
     else:
-        raise ValueError(f"Unsupported LLM_PROVIDER: {provider}. Supported providers are 'openai', 'google', and 'ollama'. Make sure to check your .env file.")
+        raise ValueError(
+            f"Unsupported LLM_PROVIDER: {provider}. Supported providers are 'openai', 'google', and 'ollama'. Make sure to check your .env file."
+        )
