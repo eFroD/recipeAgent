@@ -1,6 +1,4 @@
 import pytest
-from unittest.mock import patch, MagicMock
-import os
 from recipe_agent.agents.model_factory import create_model
 from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.models.google import GoogleModel

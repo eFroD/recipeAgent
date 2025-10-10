@@ -2,7 +2,6 @@ import pytest
 from unittest.mock import patch, MagicMock
 from recipe_agent.models.input_models.video import VideoUrl
 from recipe_agent.tools.video_loader import get_description, get_transcript
-from pathlib import Path
 
 
 def test_get_description_success():
@@ -110,8 +109,3 @@ def test_get_transcript_openai_failure(tmp_path):
         with pytest.raises(Exception, match="API Failure"):
             get_transcript(dummy_url)
 
-
-# Add more tests for:
-# - Large files/tempdir cleanup (if tempfiles are created)
-# - Wrong/malformed API responses
-# - Empty/missing mp3 files after download
