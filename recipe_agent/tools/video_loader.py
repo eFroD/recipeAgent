@@ -30,7 +30,6 @@ def get_transcript(input: VideoUrl) -> VideoTranscriptResponse:
     Extract audio using yt-dlp, transcribe it using OpenAI Whisper API.
     Returns transcript text as a Pydantic model. Assumes 'openai' package v1+.
     """
-    # 1. Download audio only
     with tempfile.TemporaryDirectory() as tmp_dir:
         audio_path = os.path.join(tmp_dir, "audio")
         ydl_opts = {
@@ -48,7 +47,6 @@ def get_transcript(input: VideoUrl) -> VideoTranscriptResponse:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([input.url])
 
-        # 2. Transcribe audio with Whisper (OpenAI API)
         client = OpenAI(api_key=OPENAI_API_KEY)
         with open(audio_path + ".mp3", "rb") as audio_file:
             response = client.audio.transcriptions.create(
