@@ -8,6 +8,7 @@ MEALIE_ENDPOINT = os.environ.get("MEALIE_ENDPOINT", None).rstrip("/")
 MEALIE_API_KEY = os.environ.get("MEALIE_API_KEY", None)
 
 send_recipe_url = f"{MEALIE_ENDPOINT}/api/recipes"
+check_user_url = f"{MEALIE_ENDPOINT}/api/users/self"
 
 
 async def push_image_to_mealie(image_url: HttpUrl, slug: str) -> bool:
@@ -84,3 +85,17 @@ async def push_recipe_to_mealie(recipe: dict) -> str:
         await push_image_to_mealie(recipe["image"], slug)
 
     return "Recipe pushed to Mealie successfully."
+
+
+async def verify_mealie_user() -> bool:
+    headers = {
+        "Authorization": f"Bearer {MEALIE_API_KEY}",
+        "accept": "application/json"
+    }
+    async with httpx.AsyncClient(timeout=10.0) as client:
+        response = await client.get(check_user_url, headers=headers)
+        try:
+            response.raise_for_status()
+            return True
+        except httpx.HTTPStatusError:
+            return False
