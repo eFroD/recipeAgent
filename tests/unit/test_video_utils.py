@@ -108,4 +108,3 @@ def test_get_transcript_openai_failure(tmp_path):
         # Expect the exception to be raised
         with pytest.raises(Exception, match="API Failure"):
             get_transcript(dummy_url)
-

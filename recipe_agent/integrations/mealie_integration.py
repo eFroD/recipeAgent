@@ -90,7 +90,7 @@ async def push_recipe_to_mealie(recipe: dict) -> str:
 async def verify_mealie_user() -> bool:
     headers = {
         "Authorization": f"Bearer {MEALIE_API_KEY}",
-        "accept": "application/json"
+        "accept": "application/json",
     }
     async with httpx.AsyncClient(timeout=10.0) as client:
         response = await client.get(check_user_url, headers=headers)
