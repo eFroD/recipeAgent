@@ -1,27 +1,24 @@
 """This module serves the functionality for communication with a Mealie instance."""
 
-import os
 import httpx
 from pydantic import HttpUrl
 
-MEALIE_ENDPOINT = os.environ.get("MEALIE_ENDPOINT", None).rstrip("/")
-MEALIE_API_KEY = os.environ.get("MEALIE_API_KEY", None)
 
-send_recipe_url = f"{MEALIE_ENDPOINT}/api/recipes"
-check_user_url = f"{MEALIE_ENDPOINT}/api/users/self"
-
-
-async def push_image_to_mealie(image_url: HttpUrl, slug: str) -> bool:
+async def push_image_to_mealie(
+    image_url: HttpUrl, slug: str, mealie_endpoint: str, mealie_api_key: str
+) -> bool:
     """Uploads an image to a Mealie recipe asynchronously.
 
     Args:
         image_url: URL of the image to download and upload
         slug: The recipe slug identifier
+        mealie_endpoint: Mealie instance base URL
+        mealie_api_key: User's Mealie API key
 
     Returns:
         bool: True if successful
     """
-    headers = {"Authorization": f"Bearer {MEALIE_API_KEY}"}
+    headers = {"Authorization": f"Bearer {mealie_api_key}"}
 
     async with httpx.AsyncClient(timeout=30.0) as client:
         # Download the image asynchronously
@@ -38,10 +35,8 @@ async def push_image_to_mealie(image_url: HttpUrl, slug: str) -> bool:
         elif "webp" in content_type:
             extension = "webp"
         elif "?" in str(image_url):
-            # Handle URLs with query parameters
             extension = str(image_url).split("?")[0].split(".")[-1]
         else:
-            # Fallback to extracting from URL
             extension = "jpg"
 
         # Prepare multipart form data
@@ -52,24 +47,31 @@ async def push_image_to_mealie(image_url: HttpUrl, slug: str) -> bool:
 
         # Upload to Mealie asynchronously
         response = await client.put(
-            f"{MEALIE_ENDPOINT}/api/recipes/{slug}/image", headers=headers, files=files
+            f"{mealie_endpoint}/api/recipes/{slug}/image", headers=headers, files=files
         )
         response.raise_for_status()
 
     return True
 
 
-async def push_recipe_to_mealie(recipe: dict) -> str:
+async def push_recipe_to_mealie(
+    recipe: dict, mealie_endpoint: str, mealie_api_key: str
+) -> str:
     """Pushes a recipe to a Mealie instance asynchronously.
 
     Args:
-        recipe: The recipe to be pushed.
+        recipe: The recipe to be pushed
+        mealie_endpoint: Mealie instance base URL
+        mealie_api_key: User's Mealie API key
 
     Returns:
         str: Success message
     """
+    mealie_endpoint = mealie_endpoint.rstrip("/")
+    send_recipe_url = f"{mealie_endpoint}/api/recipes"
+
     headers = {
-        "Authorization": f"Bearer {MEALIE_API_KEY}",
+        "Authorization": f"Bearer {mealie_api_key}",
         "accept": "application/json",
         "Content-Type": "application/json",
     }
@@ -82,16 +84,31 @@ async def push_recipe_to_mealie(recipe: dict) -> str:
 
     # Check if there is an image in the recipe and upload it separately
     if "image" in recipe and recipe["image"]:
-        await push_image_to_mealie(recipe["image"], slug)
+        await push_image_to_mealie(
+            recipe["image"], slug, mealie_endpoint, mealie_api_key
+        )
 
     return "Recipe pushed to Mealie successfully."
 
 
-async def verify_mealie_user() -> bool:
+async def verify_mealie_user(mealie_endpoint: str, mealie_api_key: str) -> bool:
+    """Verify Mealie user credentials.
+
+    Args:
+        mealie_endpoint: Mealie instance base URL
+        mealie_api_key: User's Mealie API key
+
+    Returns:
+        bool: True if credentials are valid
+    """
+    mealie_endpoint = mealie_endpoint.rstrip("/")
+    check_user_url = f"{mealie_endpoint}/api/users/self"
+
     headers = {
-        "Authorization": f"Bearer {MEALIE_API_KEY}",
+        "Authorization": f"Bearer {mealie_api_key}",
         "accept": "application/json",
     }
+
     async with httpx.AsyncClient(timeout=10.0) as client:
         response = await client.get(check_user_url, headers=headers)
         response.raise_for_status()
