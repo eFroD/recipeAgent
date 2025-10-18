@@ -5,6 +5,7 @@ from recipe_agent.api.v1.endpoints import integrations
 from recipe_agent.core.database import get_db
 from recipe_agent.core.security import oauth2_scheme, decode_token
 from recipe_agent.auth.service import get_user_by_username
+from recipe_agent.api.v1.endpoints import auth
 
 
 async def get_current_user(
@@ -22,7 +23,8 @@ async def get_current_user(
     return user
 
 
-router = APIRouter()
+router = APIRouter(prefix="/api/v1")
+router.include_router(auth.router, prefix="/auth", tags=["authentication"])
 router.include_router(recipes.router, prefix="/recipes", tags=["recipes"])
 router.include_router(
     integrations.router, prefix="/integrations", tags=["integrations"]

@@ -4,13 +4,17 @@ from sqlalchemy.orm import Session
 from datetime import timedelta
 from recipe_agent.core.database import get_db
 from recipe_agent.core.security import create_access_token, oauth2_scheme, decode_token
-from .schemas import UserCreate, UserResponse, Token
-from .service import create_user, authenticate_user, get_user_by_username
+from recipe_agent.auth.schemas import UserCreate, UserResponse, Token
+from recipe_agent.auth.service import (
+    create_user,
+    authenticate_user,
+    get_user_by_username,
+)
 import os
 
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 
-router = APIRouter(prefix="/auth", tags=["authentication"])
+router = APIRouter()
 
 
 @router.post(
