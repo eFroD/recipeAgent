@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 import logfire
 import os
-from recipe_agent.core.database import Base, engine
+from recipe_agent.db.database import Base, engine
 from recipe_agent.api.router import router
 
 Base.metadata.create_all(bind=engine)
