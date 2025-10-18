@@ -8,10 +8,15 @@ dependencies = [
     "fastapi>=0.118.0",
     "logfire[fastapi]>=4.10.0",
     "openai>=1.108.2",
-    "pydantic>=2.11.9",
+    "psycopg2-binary>=2.9.11",
+    "pydantic[email]>=2.11.9",
     "pydantic-ai>=1.0.10",
     "pydantic-ai-slim[google]>=1.0.10",
+    "python-jose[cryptography]>=3.5.0",
+    "python-multipart>=0.0.20",
+    "sqlalchemy>=2.0.44",
     "yt-dlp>=2025.9.23",
+    "passlib[argon2]>=1.7.4",
 ]
 
 [dependency-groups]
