@@ -94,8 +94,5 @@ async def verify_mealie_user() -> bool:
     }
     async with httpx.AsyncClient(timeout=10.0) as client:
         response = await client.get(check_user_url, headers=headers)
-        try:
-            response.raise_for_status()
-            return True
-        except httpx.HTTPStatusError:
-            return False
+        response.raise_for_status()
+        return True

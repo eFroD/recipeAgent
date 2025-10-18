@@ -1,4 +1,6 @@
 from fastapi import APIRouter
+from fastapi.responses import JSONResponse
+import httpx
 from recipe_agent.models.output_models.recipe import Recipe
 from recipe_agent.integrations.mealie_integration import push_recipe_to_mealie
 from recipe_agent.integrations.mealie_integration import verify_mealie_user
@@ -22,5 +24,8 @@ async def verify_user_mealie():
     """
     Verify Mealie user credentials.
     """
-    is_valid = await verify_mealie_user()
-    return {"valid": is_valid}
+    try:
+        is_valid = await verify_mealie_user()
+        return {"valid": is_valid}
+    except httpx.HTTPStatusError as e:
+        return JSONResponse(status_code=401, content={"Error": e.response.text})

@@ -25,7 +25,15 @@ async def get_current_user(
 
 router = APIRouter(prefix="/api/v1")
 router.include_router(auth.router, prefix="/auth", tags=["authentication"])
-router.include_router(recipes.router, prefix="/recipes", tags=["recipes"])
 router.include_router(
-    integrations.router, prefix="/integrations", tags=["integrations"]
+    recipes.router,
+    prefix="/recipes",
+    tags=["recipes"],
+    dependencies=[Depends(get_current_user)],
+)
+router.include_router(
+    integrations.router,
+    prefix="/integrations",
+    tags=["integrations"],
+    dependencies=[Depends(get_current_user)],
 )
